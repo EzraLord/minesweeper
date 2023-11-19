@@ -1,6 +1,5 @@
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -64,13 +63,27 @@
   <p>Mines left: <span id="mines-left">10</span></p>
   <table id="board"></table>
   <p id="message"></p>
-  <button id="reset">Reset</button>  
+  <button id="reset">Reset</button>
+  <br><br>
+  <label for="rows">Rows:</label>
+  <input type="number" id="rows" value="8">
+
+  <label for="cols">Columns:</label>
+  <input type="number" id="cols" value="10">
+
+  <label for="mines">Mines:</label>
+  <input type="number" id="mines" value="10">
+
   
   <script>
+    const DEFAULT_ROWS = 8;
+    const DEFAULT_COLS = 10;
+    const DEFAULT_MINES = 10;
+    
     // Constants
-    const ROWS = 8;
-    const COLS = 10;
-    const MINES = 10;
+    let ROWS = DEFAULT_ROWS;
+    let COLS = DEFAULT_COLS;
+    let MINES = DEFAULT_MINES;
 
     // Variables
     let board = []; // The board array
@@ -83,9 +96,20 @@
     let boardElement = document.getElementById("board");
     let minesLeftElement = document.getElementById("mines-left");
     let messageElement = document.getElementById("message");
+    let rowsInput = document.getElementById("rows");
+    let colsInput = document.getElementById("cols");
+    let minesInput = document.getElementById("mines");
 
     // Initialize the board
     function initBoard() {
+      ROWS = parseInt(rowsInput.value) || DEFAULT_ROWS;
+      COLS = parseInt(colsInput.value) || DEFAULT_COLS;
+      MINES = parseInt(minesInput.value) || DEFAULT_MINES;
+      
+      if (MINES >= ROWS * COLS - 10) {
+        return alert("Invalid mine amount. Choose less.")
+      }
+      
       // Create the board array with empty cells
       for (let i = 0; i < ROWS; i++) {
         board[i] = [];
